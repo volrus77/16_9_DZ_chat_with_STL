@@ -31,7 +31,9 @@ void Chat::userRegistration()
 		throw UserLoginEx();
 	}
 
-	AuthData user = AuthData(_login, sha1(_pass.data(), _pass.length()),
+	//AuthData user = AuthData(_login, sha1(_pass.data(), _pass.length()),
+	//	_name);
+	AuthData user = AuthData(_login, sha1(&_pass[0], _pass.length()),
 		_name);
 	userArr.push_back(user);
 	data.emplace(_login, userArr.size() - 1);
@@ -54,7 +56,7 @@ void Chat::userLogin()
 
 			currentUser = getUserLog(_login);
 
-			uint* digest = sha1(_pass.data(), _pass.length());
+			uint* digest = sha1(&_pass[0], _pass.length());
 
 			bool cmpHashes = !memcmp(
 				currentUser->pass_sha1_hash,
@@ -122,6 +124,7 @@ void Chat::showUserMenu()
 		cout << "1 - Show chat, 2 - Add Message, 3 - showAllUser, 0 - exit"
 			<< endl;
 		cin >> op;
+
 
 		switch (op)
 		{
@@ -196,8 +199,8 @@ void Chat::showChat() const
 
 	for (auto& message : messageArr)
 	{
-		if (currentUser->login == message.messageFrom || 
-			currentUser->login == message.messageTo || 
+		if (currentUser->login == message.messageFrom ||
+			currentUser->login == message.messageTo ||
 			message.messageTo == "all")
 		{
 			from = (currentUser->login == message.messageTo) ? "me" :

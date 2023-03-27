@@ -12,11 +12,11 @@ int main()
 	{
 		// вход в чат конкретного пользователя (currentUsesr != nullptr)
 		chat.showLoginMenu();  // меню: вход, регистрация = вход, выход
-		                      
+
 		while (chat.getcurrentUser())  // пока currentUsesr != nullptr
 		{
 			// меню действий пользователя в чате
-			chat.showUserMenu(); 
+			chat.showUserMenu();
 		}
 	}
 
