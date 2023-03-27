@@ -41,10 +41,10 @@ private:
             name(""),
             status(CellStatus::free) {
         }
-        ~AuthData() {
+        /*~AuthData() {
             if (pass_sha1_hash != 0)
                 delete[] pass_sha1_hash;
-        }
+        }*/
         // копирует логин, забирает внутрь хеш
         AuthData(string _login, uint* sh1, string _name) {
             login = _login;
