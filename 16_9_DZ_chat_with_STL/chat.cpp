@@ -9,7 +9,7 @@ shared_ptr <Chat::AuthData> Chat::getUserLog(const string& _login) const
 {
 	if (data.find(_login) != data.end())
 	{
-		return make_shared<AuthData>(userArr[data.at(_login)]);
+		return make_shared<AuthData>(userArr.at(data.at(_login)));
 	}
 	return nullptr;
 }
@@ -26,17 +26,16 @@ void Chat::userRegistration()
 	cout << "Name: " << endl;
 	cin >> _name;
 
-	if (data.find(_login) == data.end())
-	{
-		AuthData user = AuthData(_login, sha1(_pass.data(), _pass.length()), _name);
-		userArr.push_back(user);
-		data.emplace(_login, userArr.size() - 1);
-		currentUser = make_shared <AuthData>(user);
-	}
-	else
+	if (data.find(_login) != data.end() || _login == "all")
 	{
 		throw UserLoginEx();
 	}
+
+	AuthData user = AuthData(_login, sha1(_pass.data(), _pass.length()),
+		_name);
+	userArr.push_back(user);
+	data.emplace(_login, userArr.size() - 1);
+	currentUser = make_shared <AuthData>(user);
 }
 
 void Chat::userLogin()
