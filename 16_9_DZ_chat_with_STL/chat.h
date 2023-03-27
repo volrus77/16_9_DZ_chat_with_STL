@@ -96,5 +96,7 @@ private:
     vector <Message> messageArr;
     shared_ptr <AuthData> currentUser = nullptr;
     bool work_ = false;
-    unordered_map<string, int > data;
+    unordered_map<string, int > mapUser;  //индексы пользователей
+    unordered_map<string, int > mapTo;  // индексы мессаджей To
+    unordered_map<string, int > mapFrom;  // индексы мессаджей From
 };

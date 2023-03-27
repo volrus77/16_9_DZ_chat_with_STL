@@ -7,9 +7,9 @@ void Chat::startChat()
 
 shared_ptr <Chat::AuthData> Chat::getUserLog(const string& _login) const
 {
-	if (data.find(_login) != data.end())
+	if (mapUser.find(_login) != mapUser.end())
 	{
-		return make_shared<AuthData>(userArr.at(data.at(_login)));
+		return make_shared<AuthData>(userArr.at(mapUser.at(_login)));
 	}
 	return nullptr;
 }
@@ -26,7 +26,7 @@ void Chat::userRegistration()
 	cout << "Name: " << endl;
 	cin >> _name;
 
-	if (data.find(_login) != data.end() || _login == "all")
+	if (mapUser.find(_login) != mapUser.end() || _login == "all")
 	{
 		throw UserLoginEx();
 	}
@@ -36,7 +36,7 @@ void Chat::userRegistration()
 	AuthData user = AuthData(_login, sha1(&_pass[0], _pass.length()),
 		_name);
 	userArr.push_back(user);
-	data.emplace(_login, userArr.size() - 1);
+	mapUser.emplace(_login, userArr.size() - 1);
 	currentUser = make_shared <AuthData>(user);
 }
 
@@ -55,7 +55,7 @@ void Chat::userLogin()
 			cin >> _pass;
 
 			currentUser = getUserLog(_login);
-
+		
 			uint* digest = sha1(&_pass[0], _pass.length());
 
 			bool cmpHashes = !memcmp(
@@ -162,17 +162,9 @@ void Chat::addMessage()
 		cout << "error: " << _to << endl;
 		return;
 	}
-
-	if (_to == "all")
-	{
-		messageArr.emplace_back(currentUser->login, "all", _text);
-	}
-
-	else
-	{
 		messageArr.emplace_back(currentUser->login, _to, _text);
-	}
-
+		mapTo.emplace(_to, messageArr.size() - 1);
+		mapFrom.emplace(currentUser->login, messageArr.size() - 1);
 }
 
 void Chat::showAllUsers() const
