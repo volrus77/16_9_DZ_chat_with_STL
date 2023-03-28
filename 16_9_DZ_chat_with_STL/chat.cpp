@@ -3,7 +3,7 @@
 void Chat::startChat()
 {
 	userArr.reserve(MAXCOUNTUSER);
-	mapUser.reserve(MAXCOUNTUSER + 0.4 * MAXCOUNTUSER);
+	mapUser.reserve(MAXCOUNTUSER + 0.4 * MAXCOUNTUSER); // 0.4 великоват ?
 	vvTo.reserve(MAXCOUNTUSER);
 	vvFrom.reserve(MAXCOUNTUSER);
 	work_ = true;
@@ -170,11 +170,25 @@ void Chat::addMessage()
 		cout << "error: " << _to << endl;
 		return;
 	}
-		messageArr.emplace_back(currentUser->login, _to, _text);
-		//vvTo.at(mapUser.at(_to)).push_back(messageArr.size() - 1);
+
+	messageArr.emplace_back(currentUser->login, _to, _text);
+	//vvTo.at(mapUser.at(_to)).push_back(messageArr.size() - 1);
+	if (_to == "all")
+	{
+		for (auto& user : vvTo)
+		{
+			user.push_back(messageArr.size() - 1);
+		}
+
+		// удалить сообщение самому себе
+		vvTo[mapUser.at(currentUser->login)].pop_back(); 
+	}
+	else
+	{
 		vvTo[mapUser.at(_to)].push_back(messageArr.size() - 1);
-		//vvFrom.at(mapUser.at(currentUser->login)).push_back(messageArr.size() - 1);
-		vvFrom[mapUser.at(currentUser->login)].push_back(messageArr.size() - 1);
+	}
+	//vvFrom.at(mapUser.at(currentUser->login)).push_back(messageArr.size() - 1);
+	vvFrom[mapUser.at(currentUser->login)].push_back(messageArr.size() - 1);
 
 }
 
