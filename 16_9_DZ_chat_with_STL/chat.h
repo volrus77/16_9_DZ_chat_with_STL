@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include "sha1.h"
 #include <string>
@@ -14,7 +14,7 @@ const size_t MAXCOUNTUSER = 10;
 
 struct UserLoginEx : public exception
 {
-    const char* what() const noexcept override { return "Логин уже использован, введите другой вариант"; }
+    const char* what() const noexcept override { return "Р›РѕРіРёРЅ СѓР¶Рµ РёСЃРїРѕР»СЊР·РѕРІР°РЅ, РІРІРµРґРёС‚Рµ РґСЂСѓРіРѕР№ РІР°СЂРёР°РЅС‚"; }
 };
 
 class Chat {
@@ -47,14 +47,14 @@ private:
             if (pass_sha1_hash != 0)
                 delete[] pass_sha1_hash;
         }*/
-        // копирует логин, забирает внутрь хеш
+        // РєРѕРїРёСЂСѓРµС‚ Р»РѕРіРёРЅ, Р·Р°Р±РёСЂР°РµС‚ РІРЅСѓС‚СЂСЊ С…РµС€
         AuthData(string _login, uint* sh1, string _name) {
             login = _login;
             pass_sha1_hash = sh1;
             name = _name;
             status = CellStatus::engaged;
         }
-        // копирует всё
+        // РєРѕРїРёСЂСѓРµС‚ РІСЃС‘
         AuthData& operator = (const AuthData& other) {
             login = other.login;
 
@@ -98,7 +98,7 @@ private:
     vector <Message> messageArr;
     shared_ptr <AuthData> currentUser = nullptr;
     bool work_ = false;
-    unordered_map<string, size_t > mapUser;  //индексы пользователей
-    vector<vector<size_t>> vvTo;  // индексы мессаджей To
-    vector<vector<size_t>> vvFrom;   // индексы мессаджей From
+    unordered_map<string, size_t > mapUser;  //РёРЅРґРµРєСЃС‹ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№
+    vector<vector<size_t>> vvTo;  // РёРЅРґРµРєСЃС‹ РјРµСЃСЃР°РґР¶РµР№ To
+    vector<vector<size_t>> vvFrom;   // РёРЅРґРµРєСЃС‹ РјРµСЃСЃР°РґР¶РµР№ From
 };

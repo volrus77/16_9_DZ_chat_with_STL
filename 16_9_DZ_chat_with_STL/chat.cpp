@@ -1,9 +1,9 @@
-#include "chat.h"
+ï»¿#include "chat.h"
 
 void Chat::startChat()
 {
 	userArr.reserve(MAXCOUNTUSER);
-	mapUser.reserve(MAXCOUNTUSER + 0.4 * MAXCOUNTUSER); // 0.4 âåëèêîâàò ?
+	mapUser.reserve(MAXCOUNTUSER + 0.4 * MAXCOUNTUSER); // 0.4 Ð²ÐµÐ»Ð¸ÐºÐ¾Ð²Ð°Ñ‚ ?
 	vvTo.reserve(MAXCOUNTUSER);
 	vvFrom.reserve(MAXCOUNTUSER);
 	work_ = true;
@@ -180,7 +180,7 @@ void Chat::addMessage()
 			user.push_back(messageArr.size() - 1);
 		}
 
-		// óäàëèòü ñîîáùåíèå ñàìîìó ñåáå
+		// ÑƒÐ´Ð°Ð»Ð¸Ñ‚ÑŒ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ ÑÐ°Ð¼Ð¾Ð¼Ñƒ ÑÐµÐ±Ðµ
 		vvTo[mapUser.at(currentUser->login)].pop_back(); 
 	}
 	else
