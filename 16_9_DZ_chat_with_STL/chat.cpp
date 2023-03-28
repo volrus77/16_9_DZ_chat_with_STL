@@ -2,6 +2,10 @@
 
 void Chat::startChat()
 {
+	userArr.reserve(MAXCOUNTUSER);
+	mapUser.reserve(MAXCOUNTUSER + 0.4 * MAXCOUNTUSER);
+	vvTo.reserve(MAXCOUNTUSER);
+	vvFrom.reserve(MAXCOUNTUSER);
 	work_ = true;
 }
 
@@ -38,6 +42,10 @@ void Chat::userRegistration()
 	userArr.push_back(user);
 	mapUser.emplace(_login, userArr.size() - 1);
 	currentUser = make_shared <AuthData>(user);
+	std::vector<size_t> v1, v2;
+	vvTo.push_back(v1);
+	vvFrom.push_back(v2);
+
 }
 
 void Chat::userLogin()
@@ -163,8 +171,11 @@ void Chat::addMessage()
 		return;
 	}
 		messageArr.emplace_back(currentUser->login, _to, _text);
-		mapTo.emplace(_to, messageArr.size() - 1);
-		mapFrom.emplace(currentUser->login, messageArr.size() - 1);
+		//vvTo.at(mapUser.at(_to)).push_back(messageArr.size() - 1);
+		vvTo[mapUser.at(_to)].push_back(messageArr.size() - 1);
+		//vvFrom.at(mapUser.at(currentUser->login)).push_back(messageArr.size() - 1);
+		vvFrom[mapUser.at(currentUser->login)].push_back(messageArr.size() - 1);
+
 }
 
 void Chat::showAllUsers() const
@@ -186,32 +197,26 @@ void Chat::showAllUsers() const
 
 void Chat::showChat() const
 {
-	string from, to;
+	//string from, to;
 	cout << "Chat: " << endl;
 
-	for (auto& message : messageArr)
+	auto it1 = vvTo.at(mapUser.at(currentUser->login)).begin();
+	auto it2 = vvTo.at(mapUser.at(currentUser->login)).end();
+	
+	for (; it1 != it2; it1++)
 	{
-		if (currentUser->login == message.messageFrom ||
-			currentUser->login == message.messageTo ||
-			message.messageTo == "all")
-		{
-			from = (currentUser->login == message.messageTo) ? "me" :
-				message.messageFrom;
-		}
-
-		if (message.messageTo == "all")
-		{
-			to = "(all)";
-		}
-
-		else
-		{
-			to = (currentUser->login == message.messageTo) ? "me" :
-				message.messageTo;
-		}
-
-		cout << "from: " << from << " to: " << to << endl;
-		cout << " text: " << message.text << endl;
+		cout << "from: " << messageArr.at(*it1).messageFrom << " to: "
+			<< messageArr.at(*it1).messageTo << "(me)" << endl;
+		cout << " text: " << messageArr.at(*it1).text << endl;
 	}
 
+	auto it3 = vvFrom.at(mapUser.at(currentUser->login)).begin();
+	auto it4 = vvFrom.at(mapUser.at(currentUser->login)).end();
+
+	for (; it3 != it4; it3++)
+	{
+		cout << "from: " << messageArr.at(*it3).messageFrom << "(me)" << " to: "
+			<< messageArr.at(*it3).messageTo << endl;
+		cout << " text: " << messageArr.at(*it3).text << endl;
+	}
 }
