@@ -10,6 +10,8 @@
 
 using namespace std;
 
+const size_t MAXCOUNTUSER = 10;
+
 struct UserLoginEx : public exception
 {
     const char* what() const noexcept override { return "Логин уже использован, введите другой вариант"; }
@@ -96,7 +98,7 @@ private:
     vector <Message> messageArr;
     shared_ptr <AuthData> currentUser = nullptr;
     bool work_ = false;
-    unordered_map<string, int > mapUser;  //индексы пользователей
-    unordered_map<string, int > mapTo;  // индексы мессаджей To
-    unordered_map<string, int > mapFrom;  // индексы мессаджей From
+    unordered_map<string, size_t > mapUser;  //индексы пользователей
+    vector<vector<size_t>> vvTo;  // индексы мессаджей To
+    vector<vector<size_t>> vvFrom;   // индексы мессаджей From
 };
